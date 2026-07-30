@@ -87,7 +87,7 @@
             //exit;
             
             $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ('$titulo', 
-            '$precio', $nombreImagen, '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedor')";
+            '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedor')";
 
             //echo $query;
 
@@ -95,7 +95,7 @@
 
             if($resultado){
                 //echo "Insertado correctamente";
-                header('Location: /admin');
+                header('Location: /admin?resultado=1');
             }
         }
        

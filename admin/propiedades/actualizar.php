@@ -71,19 +71,13 @@
             $errores[] = "Debe agregar un vendedor";
         }
 
-        if(!$imagen['name']){
-            $errores[] = "La imagen es obligatoria";
-        }
-        
         //validar por tamaño
         $media = 1000 * 100;
         if(!$imagen['size'] > $media){
             $errores[] = "La imagen es muy pesada";
         }
         
-
         if(empty($errores)){
-
             /*Subida de archivos*/
             //Crear carpeta
             $carpetaImagenes = '../../imagenes/';
@@ -92,24 +86,22 @@
             }
 
             //generar un nobre unico
-
-
             $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+            
             //Subir la imagen
-
             move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
             //exit;
             
-            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ('$titulo', 
-            '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedor')";
-
+            $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', descripcion = '$descripcion', 
+            habitaciones = $habitaciones, wc = $wc, estacionamiento = $estacionamiento, vendedores_id = $vendedor
+            WHERE id = $id";
             //echo $query;
 
             $resultado = mysqli_query($db, $query);
 
             if($resultado){
                 //echo "Insertado correctamente";
-                header('Location: /admin?resultado=1');
+                header('Location: /admin?resultado=2');
             }
         }
        
@@ -131,7 +123,7 @@
         <div class= "alerta error"> <?php echo $error; ?> </div>
     <?php endforeach ?>
 
-    <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+    <form class="formulario" method="POST" enctype="multipart/form-data">
         <fieldset> 
             <legend>Informacion general</legend>
             <label for="titulo"> Titulo </label>

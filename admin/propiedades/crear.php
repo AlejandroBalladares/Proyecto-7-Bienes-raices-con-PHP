@@ -98,9 +98,6 @@
                 header('Location: /admin?resultado=1');
             }
         }
-       
-
-
     }
    
     //echo "<pre>";

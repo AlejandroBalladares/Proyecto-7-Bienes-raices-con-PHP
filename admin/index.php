@@ -20,7 +20,11 @@
         <h1>Administrador</h1>
 
         <?php if($resultado == 1): ?>
-           <p class="alerta exito"> Anuncio creado correctaente </p>
+           <p class="alerta exito"> Anuncio Creado Correctaente </p>
+        <?php endif; ?>
+
+         <?php if ($resultado == 2): ?>
+           <p class="alerta exito"> Anuncio Actualizado Correctaente </p>
         <?php endif; ?>
 
         <a href="/admin/propiedades/crear.php" class="boton boton-verde"> Nueva propiedad</a>
@@ -45,7 +49,7 @@
                     <td> $<?php echo $propiedades['precio']; ?> </td>
                     <td>
                         <a href="#" class="boton-rojo-block">Eliminar</a>
-                        <a href="./propiedades/actualizar.php?id=<?php echo $propiedades['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedades['id']; ?>" class="boton-amarillo-block">Actualizar</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>

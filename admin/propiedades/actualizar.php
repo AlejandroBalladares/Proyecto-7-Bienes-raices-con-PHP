@@ -85,14 +85,26 @@
                 mkdir($carpetaImagenes);
             }
 
-            //generar un nobre unico
-            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-            
-            //Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            $nombreImagen = '';
+
+            if($imagen['name']){
+                //elimino la imagen previa
+
+                unlink($carpetaImagenes . $propiedad['imagen']);
+
+                //generar un nobre unico
+                $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+                
+                //Subir la imagen
+                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);    
+            }
+            else{
+                $nombreImagen = $propiedad['imagen'];
+            }
+
             //exit;
             
-            $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', descripcion = '$descripcion', 
+            $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', imagen = '$nombreImagen', descripcion = '$descripcion', 
             habitaciones = $habitaciones, wc = $wc, estacionamiento = $estacionamiento, vendedores_id = $vendedor
             WHERE id = $id";
             //echo $query;

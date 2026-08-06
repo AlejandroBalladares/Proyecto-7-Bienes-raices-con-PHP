@@ -4,10 +4,8 @@
 
 ?>
 
-            <h1>Venta de Casas y Departamentos  Exclusivos de Lujo</h1>
-        </div>
-    </header>
-
+    <h1>Venta de Casas y Departamentos  Exclusivos de Lujo</h1>
+    
     <main class="contenedor seccion">
         <h1>Más Sobre Nosotros</h1>
 

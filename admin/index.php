@@ -1,11 +1,10 @@
 <?php
-
-    session_start();
-
-    $auth = $_SESSION['login'];
+    require '../includes/funciones.php';
+    $auth = estadoAutenticado();
     if(!$auth){
         header('location: /');
     }
+    
     //Importar la conección
     require '../includes/config/database.php';
     $db = conectarDB();
@@ -40,7 +39,7 @@
             }
         }
     }
-    require '../includes/funciones.php';
+    
     incluirTemplate('header');
 ?>
     <main class="contenedor seccion">

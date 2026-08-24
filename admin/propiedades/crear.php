@@ -1,6 +1,12 @@
 <?php
 
     require '../../includes/config/database.php';
+    require '../../includes/funciones.php';
+    $auth = estadoAutenticado();
+    if(!$auth){
+        header('location: /');
+    }
+
     $db = conectarDB();
 
     $consulta = "SELECT * FROM vendedores";
@@ -104,7 +110,6 @@
     //var_dump($_SERVER);
     //echo "</pre>";
     
-    require '../../includes/funciones.php';
     incluirTemplate('header');
 ?>
     <main class="contenedor seccion">

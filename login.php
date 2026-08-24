@@ -35,6 +35,8 @@
                     $_SESSION['usuario'] = $usuario['email'];
                     $_SESSION['login'] = true;
 
+                    header('location: /admin');
+
                 }
                 else{
                     $errores[]= "Contraseña incorrecta";

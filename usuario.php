@@ -11,7 +11,7 @@ $password = "password";
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
 //query para crear el usuario
-$query = "INSERT INTO usuarios (email, password) VALUES ($email, $passwordHash) ";
+$query = "INSERT INTO usuarios (email, password) VALUES ('$email', '$passwordHash') ";
 
 //agregarlo a la base de datos
 mysqli_query($db, $query);

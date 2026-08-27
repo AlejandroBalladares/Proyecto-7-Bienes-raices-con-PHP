@@ -7,6 +7,10 @@ class Propiedad {
 //base de datos
     protected static $db;
     protected static $columnasDB = ['id', 'titulo','precio','imagen','descripcion','habitaciones','wc','estacionamiento','creado','vendedorId'];
+    
+    //Errores
+    protected static $errores = [];
+    
     public $id;
     public $titulo;
     public $precio;
@@ -72,5 +76,43 @@ class Propiedad {
             $sanitizado[$key] = self::$db->escape_string($value);
         }
         return $sanitizado;
+    }
+
+    //validacion
+    public static function getErrores(){
+        return self::$errores;
+    }
+
+    public function validad(){
+         if(!$this->titulo){
+            self::$errores[] = "Debe agregar un titulo";
+        }
+        if(!$this->precio){
+            self::$errores[] = "Debe agregar un precio";
+        }
+        if(strlen($this->descripcion) <= 10){
+            self::$errores[] = "La descripcion debe ser obligatoria y tener más de 10 caracteres";
+        }
+        if(!$this->wc){
+            self::$errores[] = "Debe agregar unos wc";
+        }
+        if(!$this->estacionamiento){
+            self::$errores[] = "Debe agregar un estacionamiento";
+        }
+        if(!$this->vendedorId){
+            self::$errores[] = "Debe agregar un vendedor";
+        }
+
+        //if(!$this->imagen['name']){
+        //    self::$errores[] = "La imagen es obligatoria";
+        //}
+        
+        //validar por tamaño
+        //$media = 1000 * 100;
+        //if(!$this->imagen['size'] > $media){
+        //    self::$errores[] = "La imagen es muy pesada";
+        //}
+
+        return self::$errores;
     }
 }

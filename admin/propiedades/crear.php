@@ -11,7 +11,7 @@
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
 
-    $errores = [];
+    $errores = Propiedad::getErrores();
 
     $titulo = '';
     $precio = '';
@@ -24,61 +24,13 @@
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         $propiedad = new Propiedad($_POST);
-        $propiedad->guardar();
-
-        $titulo =  mysqli_real_escape_string( $db,  $_POST['titulo']);
-        $precio =  mysqli_real_escape_string( $db, $_POST['precio']);
-        $descripcion =  mysqli_real_escape_string( $db, $_POST['descripcion']);
-        $habitaciones =  mysqli_real_escape_string( $db, $_POST['habitaciones']);
-        $wc =  mysqli_real_escape_string( $db, $_POST['wc']);
-        $estacionamiento =  mysqli_real_escape_string( $db, $_POST['estacionamiento']);
-        $vendedor =  mysqli_real_escape_string( $db, $_POST['vendedor']);
-        $creado = date('Y/m/d');
-
-        $imagen = $_FILES['imagen'];
-
-        //insertar en la base de datos
-        //echo "<pre>";
-        //var_dump($_POST);
-        //echo "</pre>";
-
-        //echo "<pre>";
-        //var_dump($_FILES);
-        //echo "</pre>";
-        //exit;
-
-        if(!$titulo){
-            $errores[] = "Debe agregar un titulo";
-        }
-        if(!$precio){
-            $errores[] = "Debe agregar un precio";
-        }
-        if(strlen($descripcion) <= 10){
-            $errores[] = "La descripcion debe ser obligatoria y tener más de 10 caracteres";
-        }
-        if(!$wc){
-            $errores[] = "Debe agregar unos wc";
-        }
-        if(!$estacionamiento){
-            $errores[] = "Debe agregar un estacionamiento";
-        }
-        if(!$vendedor){
-            $errores[] = "Debe agregar un vendedor";
-        }
-
-        if(!$imagen['name']){
-            $errores[] = "La imagen es obligatoria";
-        }
+        $errores = $propiedad->validad();
         
-        //validar por tamaño
-        $media = 1000 * 100;
-        if(!$imagen['size'] > $media){
-            $errores[] = "La imagen es muy pesada";
-        }
-        
-
         if(empty($errores)){
 
+            $propiedad->guardar();
+
+            $imagen = $_FILES['imagen'];
             /*Subida de archivos*/
             //Crear carpeta
             $carpetaImagenes = '../../imagenes/';

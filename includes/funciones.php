@@ -7,10 +7,17 @@ function incluirTemplate($nombre, $inicio = false){
     include TEMPLATES_URL."/{$nombre}.php";
 }
 
-function estadoAutenticado() :bool{
+function estadoAutenticado(){
     session_start();
 
-    $auth = $_SESSION['login'] ?? false;
+    if(!$_SESSION['login']){
+        header('location: /');
+    }
+}
 
-    return $auth;
+function debuguear($variable){
+    echo "<pre>";
+    var_dump($variable);
+    echo "</pre";
+    exit;
 }

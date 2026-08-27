@@ -1,12 +1,11 @@
 <?php
 
-    require '../../includes/config/database.php';
-    require '../../includes/funciones.php';
-    $auth = estadoAutenticado();
-    if(!$auth){
-        header('location: /');
-    }
+    require '../../includes/app.php';
 
+    use App\Propiedad;
+    
+    estadoAutenticado();
+   
     $db = conectarDB();
 
     $consulta = "SELECT * FROM vendedores";
@@ -23,6 +22,10 @@
     $vendedor = '';
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        $propiedad = new Propiedad($_POST);
+        $propiedad->guardar();
+
         $titulo =  mysqli_real_escape_string( $db,  $_POST['titulo']);
         $precio =  mysqli_real_escape_string( $db, $_POST['precio']);
         $descripcion =  mysqli_real_escape_string( $db, $_POST['descripcion']);
@@ -84,20 +87,13 @@
             }
 
             //generar un nobre unico
-
-
             $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+   
             //Subir la imagen
-
             move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-            //exit;
-            
-            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ('$titulo', 
-            '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedor')";
+   
 
-            //echo $query;
-
-            $resultado = mysqli_query($db, $query);
+            //$resultado = mysqli_query($db, $query);
 
             if($resultado){
                 //echo "Insertado correctamente";
@@ -105,10 +101,6 @@
             }
         }
     }
-   
-    //echo "<pre>";
-    //var_dump($_SERVER);
-    //echo "</pre>";
     
     incluirTemplate('header');
 ?>
@@ -154,7 +146,7 @@
         <fieldset>
             <legend>Vendedor</legend>
             
-            <select name="vendedor">
+            <select name="vendedorId">
                 <option value=""> --Selecione un vendedor--</option>
                 <?php while($row = mysqli_fetch_assoc($resultado)): ?>
                     <option <?php echo $row['id'] == $vendedor ? 'selected': ''; ?> value="<?php echo $row['id']; ?>"> <?php echo $row['nombre']." ". $row['apellido'];  ?></option>

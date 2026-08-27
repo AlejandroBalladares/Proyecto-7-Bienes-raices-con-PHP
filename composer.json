@@ -1,0 +1,17 @@
+{
+    "name": "ale_1/bienes-raices-php",
+    "description": "Creando un proyecto con PHP y POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Alejandro Balladares",
+            "email": "ale_12_river@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "./clases"
+        }
+    }
+}

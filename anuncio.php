@@ -7,8 +7,8 @@
         header('location: /');
     }
 
+    require 'includes/app.php';
     //Importar la conección
-    require './includes/config/database.php';
     $db = conectarDB();
 
     //Escribir el query
@@ -17,9 +17,7 @@
     //Consultar la bd
     $resultado = mysqli_query($db, $query);
     $propiedad = mysqli_fetch_assoc($resultado);
-
-
-    require 'includes/funciones.php';
+    
     incluirTemplate('header');
 ?>
 

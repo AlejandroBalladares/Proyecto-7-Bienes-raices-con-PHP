@@ -1,9 +1,9 @@
 <?php
     require '../includes/funciones.php';
-    $auth = estadoAutenticado();
-    if(!$auth){
-        header('location: /');
-    }
+    //$auth = estadoAutenticado();
+    //if(!$auth){
+    //    header('location: /');
+    //}
     
     //Importar la conección
     require '../includes/config/database.php';

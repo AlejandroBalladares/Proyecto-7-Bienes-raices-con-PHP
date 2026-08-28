@@ -3,7 +3,9 @@
     require '../../includes/app.php';
 
     use App\Propiedad;
-    
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+
     estadoAutenticado();
    
     $db = conectarDB();
@@ -24,31 +26,26 @@
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         $propiedad = new Propiedad($_POST);
+
+        //generar un nobre unico
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+        if($_FILES['imagen']['tmp_name']){
+            $manager = new ImageManager(Driver::class);
+            $imagen = $manager->read($_FILES['imagen']['tmp_name'])->cover(800, 600);
+            $propiedad->setImagen($nombreImagen);
+        }
         $errores = $propiedad->validad();
         
         if(empty($errores)){
-
-            $propiedad->guardar();
-
-            $imagen = $_FILES['imagen'];
-            /*Subida de archivos*/
-            //Crear carpeta
-            $carpetaImagenes = '../../imagenes/';
-            if (!is_dir($carpetaImagenes)){
-                mkdir($carpetaImagenes);
+            if (!is_dir(CARPETA_IMAGENES)){
+                mkdir(CARPETA_IMAGENES);
             }
 
-            //generar un nobre unico
-            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-   
-            //Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-   
-
-            //$resultado = mysqli_query($db, $query);
+            //guardar la imagen en el servidor
+            $imagen->save(CARPETA_IMAGENES . $nombreImagen);
+            $resultado = $propiedad->guardar();
 
             if($resultado){
-                //echo "Insertado correctamente";
                 header('Location: /admin?resultado=1');
             }
         }

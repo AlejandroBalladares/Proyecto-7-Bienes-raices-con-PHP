@@ -27,7 +27,7 @@ class Propiedad {
         $this->id = $args['id'] ?? '';
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
-        $this->imagen = $args['imagen'] ?? 'imagen.jpg';
+        $this->imagen = $args['imagen'] ?? '';
         $this->descripcion = $args['descripcion'] ?? '';
         $this->habitaciones = $args['habitaciones'] ?? '';
         $this->wc = $args['wc'] ?? '';
@@ -103,16 +103,17 @@ class Propiedad {
             self::$errores[] = "Debe agregar un vendedor";
         }
 
-        //if(!$this->imagen['name']){
-        //    self::$errores[] = "La imagen es obligatoria";
-        //}
-        
-        //validar por tamaño
-        //$media = 1000 * 100;
-        //if(!$this->imagen['size'] > $media){
-        //    self::$errores[] = "La imagen es muy pesada";
-        //}
+        if(!$this->imagen){
+            self::$errores[] = "La imagen es obligatoria";
+        }
+ 
 
         return self::$errores;
+    }
+
+    public function setImagen($imagen){
+        if($imagen){
+            $this->imagen = $imagen;
+        }
     }
 }

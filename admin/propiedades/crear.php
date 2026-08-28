@@ -9,19 +9,13 @@
     estadoAutenticado();
    
     $db = conectarDB();
-
+    $propiedad = new Propiedad;
+    
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
 
     $errores = Propiedad::getErrores();
 
-    $titulo = '';
-    $precio = '';
-    $descripcion = '';
-    $habitaciones = '';
-    $wc = '';
-    $estacionamiento = '';
-    $vendedor = '';
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -63,45 +57,7 @@
     <?php endforeach ?>
 
     <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
-        <fieldset> 
-            <legend>Informacion general</legend>
-            <label for="titulo"> Titulo </label>
-            <input type = "text" id="titulo" name = "titulo" placeholder="Titulo propiedad" value= "<?php echo $titulo?>">
-
-            <label for="precio"> Precio </label>
-            <input type = "number" id="precio" name ="precio" placeholder="Precio propiedad" value= "<?php echo $precio ?>">
-
-            <label for="imagen"> Imagen </label>
-            <input type = "file" id="imagen" accept="image/jpeg, image/png" name="imagen">
-
-            <label for="descripcion"> Descripcion</label>
-            <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea>
-        </fieldset>
-
-        <fieldset>
-            <legend>Cantidad de habitaciones</legend>
-            
-            <label for="habitaciones"> Habitaciones </label>
-            <input type = "number" id="habitaciones" name = "habitaciones" placeholder="Ej: 3" min="1" max="9" value= "<?php echo $habitaciones ?>">
-
-            <label for="wc"> wc </label>
-            <input type = "number" id="wc" name = "wc" placeholder="Ej: 3" min="1" max="9"  value= "<?php echo $wc ?>">
-
-            <label for="estacionamiento"> Estacionamiento </label>
-            <input type = "number" id="estacionamiento" name = "estacionamiento" placeholder="Ej: 3" min="1" max="9" value= "<?php echo $estacionamiento ?>">
-
-        </fieldset>
-
-        <fieldset>
-            <legend>Vendedor</legend>
-            
-            <select name="vendedorId">
-                <option value=""> --Selecione un vendedor--</option>
-                <?php while($row = mysqli_fetch_assoc($resultado)): ?>
-                    <option <?php echo $row['id'] == $vendedor ? 'selected': ''; ?> value="<?php echo $row['id']; ?>"> <?php echo $row['nombre']." ". $row['apellido'];  ?></option>
-                <?php endwhile ?>
-            </select>
-        </fieldset>
+        <?php include '../../includes/templates/formulario_propiedades.php' ?>
 
         <input type="submit" value="Crear Propiedad" class="boton boton-verde">
     </form>

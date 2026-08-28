@@ -1,17 +1,9 @@
 <?php
-    require '../includes/funciones.php';
+    require '../includes/app.php';
     estadoAutenticado();
+    use App\Propiedad;
     
-    //Importar la conección
-    require '../includes/config/database.php';
-    $db = conectarDB();
-
-    //Escribir el query
-    $query = "SELECT * FROM propiedades";
-
-    //Consultar la bd
-    $resultadoConsulta = mysqli_query($db, $query);
-
+    $propiedades = Propiedad::all();
     //mensaje condincional
     $resultado = $_GET["resultado"] ?? null; //si no hay valor, agrgo null por defecto
 

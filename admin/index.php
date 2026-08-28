@@ -59,22 +59,22 @@
             </thead>
             <tbody> <!-- Mostrar los resultados-->
 
-                <?php while ($propiedades = mysqli_fetch_assoc($resultadoConsulta)):?>
+                <?php foreach($propiedades as $propiedad): ?>
                 <tr>
-                    <td> <?php echo $propiedades['id']; ?> </td>
-                    <td> <?php echo $propiedades['titulo']; ?> </td>
-                    <td><img src="/imagenes/<?php echo $propiedades['imagen']; ?> " class="imagen-tabla"></td>
-                    <td> $<?php echo $propiedades['precio']; ?> </td>
+                    <td> <?php echo $propiedad->id; ?> </td>
+                    <td> <?php echo $propiedad->titulo; ?> </td>
+                    <td><img src="/imagenes/<?php echo $propiedad->imagen; ?> " class="imagen-tabla"></td>
+                    <td> $<?php echo $propiedad->precio; ?> </td>
                     <td>
                         <form class="w-100" method="POST">
 
-                        <input type="hidden" name="id" value="<?php echo $propiedades['id']; ?>">
+                        <input type="hidden" name="id" value="<?php echo $propiedad->id; ?>">
                         <input type="submit" class="boton-rojo-block" value="Eliminar">
                         </form>
-                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedades['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad->id; ?>" class="boton-amarillo-block">Actualizar</a>
                     </td>
                 </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </main>

@@ -3,8 +3,8 @@
     require '../../includes/app.php';
 
     use App\Propiedad;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
+    use Intervention\Image\Drivers\Gd\Driver;
+    use Intervention\Image\ImageManager;
 
     estadoAutenticado();
    

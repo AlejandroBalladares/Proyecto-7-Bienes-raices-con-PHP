@@ -42,8 +42,6 @@ class Propiedad {
         //sanitizar datos
         $atributos = $this->sanitizarDatos();
 
-        //$string = join(', ', array_keys($atributos));
-
         $query = "INSERT INTO propiedades (";
         $query .= join(', ', array_keys($atributos));
         $query .= " ) VALUES (' ";
@@ -51,7 +49,6 @@ class Propiedad {
         $query .= " ') ";
         
         $resultado = self::$db->query($query);
-        debuguear($resultado);
     }
 
     //definir conexion a la db
@@ -106,8 +103,6 @@ class Propiedad {
         if(!$this->imagen){
             self::$errores[] = "La imagen es obligatoria";
         }
- 
-
         return self::$errores;
     }
 

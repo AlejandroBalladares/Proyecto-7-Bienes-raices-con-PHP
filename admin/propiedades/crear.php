@@ -34,14 +34,9 @@
             if (!is_dir(CARPETA_IMAGENES)){
                 mkdir(CARPETA_IMAGENES);
             }
-
             //guardar la imagen en el servidor
             $imagen->save(CARPETA_IMAGENES . $nombreImagen);
-            $resultado = $propiedad->guardar();
-
-            if($resultado){
-                header('Location: /admin?resultado=1');
-            }
+            $propiedad->guardar();
         }
     }
     

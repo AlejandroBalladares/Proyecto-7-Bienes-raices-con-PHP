@@ -5,7 +5,6 @@ use App\Propiedad;
 
     require '../../includes/app.php';
     estadoAutenticado();
-    
 
     //validar id valido
     $id = $_GET['id'];
@@ -18,8 +17,6 @@ use App\Propiedad;
     $db = conectarDB();
 
     $propiedad = Propiedad::find($id);
-
-
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
 

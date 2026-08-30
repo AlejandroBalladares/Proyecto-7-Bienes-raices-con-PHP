@@ -1,5 +1,8 @@
 <?php
 use App\Propiedad;
+    use Intervention\Image\Drivers\Gd\Driver;
+    use Intervention\Image\ImageManager;
+
     require '../../includes/app.php';
     estadoAutenticado();
     
@@ -20,7 +23,7 @@ use App\Propiedad;
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
 
-    $errores = [];
+    $errores = Propiedad::getErrores();
 
     $titulo = $propiedad->titulo;
     $precio = $propiedad->precio;
@@ -32,68 +35,20 @@ use App\Propiedad;
     $imagenPropiedad = $propiedad->imagen;
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        $titulo =  mysqli_real_escape_string( $db,  $_POST['titulo']);
-        $precio =  mysqli_real_escape_string( $db, $_POST['precio']);
-        $descripcion =  mysqli_real_escape_string( $db, $_POST['descripcion']);
-        $habitaciones =  mysqli_real_escape_string( $db, $_POST['habitaciones']);
-        $wc =  mysqli_real_escape_string( $db, $_POST['wc']);
-        $estacionamiento =  mysqli_real_escape_string( $db, $_POST['estacionamiento']);
-        $vendedor =  mysqli_real_escape_string( $db, $_POST['vendedor']);
-        $creado = date('Y/m/d');
+       
+        $args = $_POST['propiedad'];
+        $propiedad->sincronizar($args);
+        $errores = $propiedad->validar();
+        //generar un nobre unico
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
 
-        $imagen = $_FILES['imagen'];
-
-        if(!$titulo){
-            $errores[] = "Debe agregar un titulo";
-        }
-        if(!$precio){
-            $errores[] = "Debe agregar un precio";
-        }
-        if(strlen($descripcion) <= 10){
-            $errores[] = "La descripcion debe ser obligatoria y tener más de 10 caracteres";
-        }
-        if(!$wc){
-            $errores[] = "Debe agregar unos wc";
-        }
-        if(!$estacionamiento){
-            $errores[] = "Debe agregar un estacionamiento";
-        }
-        if(!$vendedor){
-            $errores[] = "Debe agregar un vendedor";
-        }
-
-        //validar por tamaño
-        $media = 1000 * 100;
-        if(!$imagen['size'] > $media){
-            $errores[] = "La imagen es muy pesada";
-        }
-        
         if(empty($errores)){
-            /*Subida de archivos*/
-            //Crear carpeta
-            $carpetaImagenes = '../../imagenes/';
-            if (!is_dir($carpetaImagenes)){
-                mkdir($carpetaImagenes);
+            if($_FILES['propiedad']['tmp_name']['imagen']){
+                $manager = new ImageManager(Driver::class);
+                $imagen = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
+                $propiedad->setImagen($nombreImagen);
             }
 
-            $nombreImagen = '';
-
-            if($imagen['name']){
-                //elimino la imagen previa
-
-                unlink($carpetaImagenes . $propiedad->imagen);
-
-                //generar un nobre unico
-                $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-                
-                //Subir la imagen
-                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);    
-            }
-            else{
-                $nombreImagen = $propiedad->imagen;
-            }
-
-            //exit;
             
             $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', imagen = '$nombreImagen', descripcion = '$descripcion', 
             habitaciones = $habitaciones, wc = $wc, estacionamiento = $estacionamiento, vendedores_id = $vendedor

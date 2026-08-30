@@ -80,7 +80,7 @@ class Propiedad {
         return self::$errores;
     }
 
-    public function validad(){
+    public function validar(){
          if(!$this->titulo){
             self::$errores[] = "Debe agregar un titulo";
         }
@@ -107,6 +107,12 @@ class Propiedad {
     }
 
     public function setImagen($imagen){
+        if($this->id){
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->imagen);
+            }
+        }
         if($imagen){
             $this->imagen = $imagen;
         }
@@ -144,5 +150,14 @@ class Propiedad {
             }
         }
         return $objeto;
+    }
+
+    //sincroniza el objeto en memoria con los cambios realizados por el usuario
+    public function sincronizar($args = []){
+        foreach($args as $key => $value){
+            if(property_exists($this, $key) && !is_null($value)){
+                $this->$key = $value;
+            }
+        }
     }
 }

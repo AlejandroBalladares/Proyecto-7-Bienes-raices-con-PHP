@@ -39,35 +39,22 @@ use App\Propiedad;
         $args = $_POST['propiedad'];
         $propiedad->sincronizar($args);
         $errores = $propiedad->validar();
+
         //generar un nobre unico
         $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-
-        if(empty($errores)){
-            if($_FILES['propiedad']['tmp_name']['imagen']){
-                $manager = new ImageManager(Driver::class);
-                $imagen = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
-                $propiedad->setImagen($nombreImagen);
-            }
-
-            
-            $query = "UPDATE propiedades SET titulo = '$titulo', precio = '$precio', imagen = '$nombreImagen', descripcion = '$descripcion', 
-            habitaciones = $habitaciones, wc = $wc, estacionamiento = $estacionamiento, vendedores_id = $vendedor
-            WHERE id = $id";
-            //echo $query;
-
-            $resultado = mysqli_query($db, $query);
-
-            if($resultado){
-                //echo "Insertado correctamente";
-                header('Location: /admin?resultado=2');
-            }
+        
+        if($_FILES['propiedad']['tmp_name']['imagen']){
+            $manager = new ImageManager(Driver::class);
+            $imagen = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
+            $propiedad->setImagen($nombreImagen);
         }
-       
+        
+        if(empty($errores)){
+            $imagen->save(CARPETA_IMAGENES . $nombreImagen);
+            $propiedad->guardar();
+            
+        }
     }
-   
-    //echo "<pre>";
-    //var_dump($_SERVER);
-    //echo "</pre>";
     incluirTemplate('header');
 ?>
     <main class="contenedor seccion">

@@ -119,6 +119,12 @@ class Propiedad {
         return $resultado;
     }
 
+    public static function find($id){
+        $query = "SELECT * FROM propiedades WHERE id = $id";
+        $resultado = self::consultarSQL($query);
+        return $resultado[0];
+    }
+
     public static function consultarSQL($query){
         $resultado = self::$db->query($query);
 

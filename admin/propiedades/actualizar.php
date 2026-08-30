@@ -1,9 +1,8 @@
 <?php
-    require '../../includes/funciones.php';
-    $auth = estadoAutenticado();
-    if(!$auth){
-        header('location: /');
-    }
+use App\Propiedad;
+    require '../../includes/app.php';
+    estadoAutenticado();
+    
 
     //validar id valido
     $id = $_GET['id'];
@@ -13,12 +12,9 @@
         header('location: /admin');
     }
 
-    require '../../includes/config/database.php';
     $db = conectarDB();
 
-    $consulta = "SELECT * FROM propiedades WHERE id = $id";
-    $resultado = mysqli_query($db, $consulta);
-    $propiedad = mysqli_fetch_assoc($resultado);
+    $propiedad = Propiedad::find($id);
 
 
     $consulta = "SELECT * FROM vendedores";
@@ -26,14 +22,14 @@
 
     $errores = [];
 
-    $titulo = $propiedad['titulo'];
-    $precio = $propiedad['precio'];
-    $descripcion = $propiedad['descripcion'];
-    $habitaciones = $propiedad['habitaciones'];
-    $wc = $propiedad['wc'];
-    $estacionamiento = $propiedad['estacionamiento'];
-    $vendedor = $propiedad['vendedores_id'];
-    $imagenPropiedad = $propiedad['imagen'];
+    $titulo = $propiedad->titulo;
+    $precio = $propiedad->precio;
+    $descripcion = $propiedad->descripcion;
+    $habitaciones = $propiedad->habitaciones;
+    $wc = $propiedad->wc;
+    $estacionamiento = $propiedad->estacionamiento;
+    $vendedor = $propiedad->vendedorId;
+    $imagenPropiedad = $propiedad->imagen;
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $titulo =  mysqli_real_escape_string( $db,  $_POST['titulo']);
@@ -46,16 +42,6 @@
         $creado = date('Y/m/d');
 
         $imagen = $_FILES['imagen'];
-
-        //insertar en la base de datos
-        //echo "<pre>";
-        //var_dump($_POST);
-        //echo "</pre>";
-
-        //echo "<pre>";
-        //var_dump($_FILES);
-        //echo "</pre>";
-        //exit;
 
         if(!$titulo){
             $errores[] = "Debe agregar un titulo";
@@ -95,7 +81,7 @@
             if($imagen['name']){
                 //elimino la imagen previa
 
-                unlink($carpetaImagenes . $propiedad['imagen']);
+                unlink($carpetaImagenes . $propiedad->imagen);
 
                 //generar un nobre unico
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
@@ -104,7 +90,7 @@
                 move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);    
             }
             else{
-                $nombreImagen = $propiedad['imagen'];
+                $nombreImagen = $propiedad->imagen;
             }
 
             //exit;
@@ -139,46 +125,7 @@
     <?php endforeach ?>
 
     <form class="formulario" method="POST" enctype="multipart/form-data">
-        <fieldset> 
-            <legend>Informacion general</legend>
-            <label for="titulo"> Titulo </label>
-            <input type = "text" id="titulo" name = "titulo" placeholder="Titulo propiedad" value= "<?php echo $titulo?>">
-
-            <label for="precio"> Precio </label>
-            <input type = "number" id="precio" name ="precio" placeholder="Precio propiedad" value= "<?php echo $precio ?>">
-
-            <label for="imagen"> Imagen </label>
-            <input type = "file" id="imagen" accept="image/jpeg, image/png" name="imagen">
-            <img src= "/imagenes/<?php echo $imagenPropiedad;?>" class="imagen-small">
-
-            <label for="descripcion"> Descripcion</label>
-            <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea>
-        </fieldset>
-
-        <fieldset>
-            <legend>Cantidad de habitaciones</legend>
-            
-            <label for="habitaciones"> Habitaciones </label>
-            <input type = "number" id="habitaciones" name = "habitaciones" placeholder="Ej: 3" min="1" max="9" value= "<?php echo $habitaciones ?>">
-
-            <label for="wc"> wc </label>
-            <input type = "number" id="wc" name = "wc" placeholder="Ej: 3" min="1" max="9"  value= "<?php echo $wc ?>">
-
-            <label for="estacionamiento"> Estacionamiento </label>
-            <input type = "number" id="estacionamiento" name = "estacionamiento" placeholder="Ej: 3" min="1" max="9" value= "<?php echo $estacionamiento ?>">
-
-        </fieldset>
-
-        <fieldset>
-            <legend>Vendedor</legend>
-            
-            <select name="vendedor">
-                <option value=""> --Selecione un vendedor--</option>
-                <?php while($row = mysqli_fetch_assoc($resultado)): ?>
-                    <option <?php echo $row['id'] == $vendedor ? 'selected': ''; ?> value="<?php echo $row['id']; ?>"> <?php echo $row['nombre']." ". $row['apellido'];  ?></option>
-                <?php endwhile ?>
-            </select>
-        </fieldset>
+        <?php include '../../includes/templates/formulario_propiedades.php' ?>
 
         <input type="submit" value="Actualizar Propiedad" class="boton boton-verde">
     </form>

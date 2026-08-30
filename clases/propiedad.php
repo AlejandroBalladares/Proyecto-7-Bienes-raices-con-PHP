@@ -59,6 +59,9 @@ class Propiedad {
         $query .= " ') ";
         //debuguear($query);
         $resultado = self::$db->query($query);
+        if($resultado){
+            header('Location: /admin?resultado=1');
+        }
     }
 
     public function actualizar(){
@@ -135,7 +138,7 @@ class Propiedad {
     }
 
     public function setImagen($imagen){
-        if(isset($this->id)){
+        if($this->id){
             $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
             if($existeArchivo){
                 unlink(CARPETA_IMAGENES . $this->imagen);

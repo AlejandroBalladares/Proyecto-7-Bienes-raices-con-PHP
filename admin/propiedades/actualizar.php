@@ -25,15 +25,6 @@ use App\Propiedad;
 
     $errores = Propiedad::getErrores();
 
-    $titulo = $propiedad->titulo;
-    $precio = $propiedad->precio;
-    $descripcion = $propiedad->descripcion;
-    $habitaciones = $propiedad->habitaciones;
-    $wc = $propiedad->wc;
-    $estacionamiento = $propiedad->estacionamiento;
-    $vendedor = $propiedad->vendedorId;
-    $imagenPropiedad = $propiedad->imagen;
-
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
        
         $args = $_POST['propiedad'];
@@ -48,12 +39,13 @@ use App\Propiedad;
             $imagen = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
             $propiedad->setImagen($nombreImagen);
         }
-        
-        if(empty($errores)){
-            $imagen->save(CARPETA_IMAGENES . $nombreImagen);
+        if (empty($errores)) {
+            // Almacenar la imagen
+            if ($_FILES['propiedad']['tmp_name']['imagen']){
+                $imagen->save(CARPETA_IMAGENES . $nombreImagen);
+            }
             $propiedad->guardar();
-            
-        }
+}
     }
     incluirTemplate('header');
 ?>

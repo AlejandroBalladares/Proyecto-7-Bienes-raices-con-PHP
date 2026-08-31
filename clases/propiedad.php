@@ -82,6 +82,15 @@ class Propiedad {
         }
     }
 
+    public function eliminar(){
+        $query = "DELETE FROM propiedades WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+        $resultado = self::$db->query($query);
+        if($resultado){
+            $this->borrarImagen();
+            header('Location: /admin?resultado=3');
+        }        
+    }
+
     //definir conexion a la db
     public static function setDB($database){
         self::$db = $database;
@@ -139,14 +148,18 @@ class Propiedad {
 
     public function setImagen($imagen){
         if($this->id){
-            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
-            if($existeArchivo){
-                unlink(CARPETA_IMAGENES . $this->imagen);
-            }
+            $this->borrarImagen();
         }
         if($imagen){
             $this->imagen = $imagen;
         }
+    }
+
+    public function borrarImagen(){
+        $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->imagen);
+            }
     }
 
     //Listar todas las propiedades

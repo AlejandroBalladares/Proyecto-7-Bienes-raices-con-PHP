@@ -69,6 +69,5 @@
 
 <?php
 
-mysqli_close($db);
 incluirTemplate('footer');
 ?>

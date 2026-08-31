@@ -2,8 +2,11 @@
     require '../includes/app.php';
     estadoAutenticado();
     use App\Propiedad;
-    
+    use App\Vendedor;
+
     $propiedades = Propiedad::all();
+    $vendedores = Vendedor::all();
+    
     //mensaje condincional
     $resultado = $_GET["resultado"] ?? null; //si no hay valor, agrgo null por defecto
 

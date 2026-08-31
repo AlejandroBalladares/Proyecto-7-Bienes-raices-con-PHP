@@ -3,17 +3,15 @@
     require '../../includes/app.php';
 
     use App\Propiedad;
+    use App\Vendedor;
     use Intervention\Image\Drivers\Gd\Driver;
     use Intervention\Image\ImageManager;
 
     estadoAutenticado();
    
-    $db = conectarDB();
     $propiedad = new Propiedad;
+    $vendedores = Vendedor::all();
     
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db, $consulta);
-
     $errores = Propiedad::getErrores();
 
 

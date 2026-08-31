@@ -1,7 +1,8 @@
 <?php
-use App\Propiedad;
+    use App\Propiedad;
     use Intervention\Image\Drivers\Gd\Driver;
     use Intervention\Image\ImageManager;
+    use App\Vendedor;
 
     require '../../includes/app.php';
     estadoAutenticado();
@@ -17,8 +18,7 @@ use App\Propiedad;
     $db = conectarDB();
 
     $propiedad = Propiedad::find($id);
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db, $consulta);
+    $vendedores = Vendedor::all();
 
     $errores = Propiedad::getErrores();
 

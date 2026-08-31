@@ -16,7 +16,7 @@
 
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
+        //debuguear($_POST);
         $propiedad = new Propiedad($_POST['propiedad']);
 
         //generar un nobre unico

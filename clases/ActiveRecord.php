@@ -75,7 +75,7 @@ class ActiveRecord {
 
     public function atributos(){
         $atributos = [];
-        foreach(self::$columnasDB as $columna){
+        foreach(static::$columnasDB as $columna){
             if($columna == 'id') continue;
             $atributos[$columna] = $this->$columna;
         }
@@ -92,35 +92,13 @@ class ActiveRecord {
         return $sanitizado;
     }
 
-    //validacion
     public static function getErrores(){
-        return self::$errores;
+        return static::$errores;
     }
 
     public function validar(){
-         if(!$this->titulo){
-            self::$errores[] = "Debe agregar un titulo";
-        }
-        if(!$this->precio){
-            self::$errores[] = "Debe agregar un precio";
-        }
-        if(strlen($this->descripcion) <= 10){
-            self::$errores[] = "La descripcion debe ser obligatoria y tener más de 10 caracteres";
-        }
-        if(!$this->wc){
-            self::$errores[] = "Debe agregar unos wc";
-        }
-        if(!$this->estacionamiento){
-            self::$errores[] = "Debe agregar un estacionamiento";
-        }
-        if(!$this->vendedorId){
-            self::$errores[] = "Debe agregar un vendedor";
-        }
-
-        if(!$this->imagen){
-            self::$errores[] = "La imagen es obligatoria";
-        }
-        return self::$errores;
+        static::$errores = [];
+        return static::$errores;
     }
 
     public function setImagen($imagen){
@@ -159,7 +137,7 @@ class ActiveRecord {
 
         $array = [];
         while($registro = $resultado->fetch_assoc()){
-            $array[] = self::crearObjeto($registro);
+            $array[] = static::crearObjeto($registro);
         }
         $resultado->free();
         return $array;

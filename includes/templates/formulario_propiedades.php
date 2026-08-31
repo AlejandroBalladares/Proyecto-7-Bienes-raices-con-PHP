@@ -1,5 +1,6 @@
 <fieldset> 
             <legend>Informacion general</legend>
+            
             <label for="titulo"> Titulo </label>
             <input type = "text" id="titulo" name = "propiedad[titulo]" placeholder="Titulo propiedad" value= "<?php echo sanitizar($propiedad->titulo) ?>">
 

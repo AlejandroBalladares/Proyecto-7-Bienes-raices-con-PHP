@@ -117,9 +117,17 @@ class ActiveRecord {
             }
     }
 
-    //Listar todas las propiedades
+    //Listar todos los registros
     public static function all(){
         $query = "SELECT * FROM " . static::$tabla;
+        $resultado = self::consultarSQL($query);
+        //debuguear($query);
+        return $resultado;
+    }
+
+    //Listar un numero determinado de registros
+    public static function get($cantidad){
+        $query = "SELECT * FROM " . static::$tabla . " LIMIT " . $cantidad;
         $resultado = self::consultarSQL($query);
         //debuguear($query);
         return $resultado;

@@ -27,3 +27,8 @@ function sanitizar($html):string{
     $sanitizado = htmlspecialchars($html);
     return $sanitizado;
 }
+
+function validarTipoContenido($tipo){
+    $tipos = ['vendedor', 'propiedad'];
+    return in_array($tipo, $tipos);
+}

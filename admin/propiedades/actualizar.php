@@ -7,10 +7,9 @@
     require '../../includes/app.php';
     estadoAutenticado();
 
-    //validar id valido
+    //validar id
     $id = $_GET['id'];
     $id = filter_var($id, FILTER_VALIDATE_INT);
-
     if(!$id){
         header('location: /admin');
     }

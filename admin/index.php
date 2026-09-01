@@ -34,17 +34,11 @@
     <main class="contenedor seccion">
         <h1>Administrador</h1>
 
-        <?php if($resultado == 1): ?>
-           <p class="alerta exito"> Creado Correctaente </p>
-        <?php endif; ?>
-
-        <?php if ($resultado == 2): ?>
-           <p class="alerta exito"> Actualizado Correctaente </p>
-        <?php endif; ?>
-        <?php if ($resultado == 3): ?>
-           <p class="alerta exito"> Eliminado Correctaente </p>
-        <?php endif; ?>
-
+        <?php 
+            $mensaje = mostrarNotificacion(intval($resultado));
+            if($mensaje){ ?>
+                <p class="alerta exito"> <?php echo sanitizar($mensaje); ?> </p>
+            <?php } ?>
         <a href="/admin/propiedades/crear.php" class="boton boton-verde"> Nueva propiedad</a>
         <a href="/admin/vendedores/crear.php" class="boton-amarillo"> Nuevo vendedor</a>
 

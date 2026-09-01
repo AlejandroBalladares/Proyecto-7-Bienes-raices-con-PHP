@@ -13,5 +13,5 @@
             <legend>Información extra</legend>
             
             <label for="telefono"> Telefono </label>
-            <input type = "number" id="telefono" name = "vendedor[telefono]" placeholder="47734623" min="1" max="9" value= "<?php echo sanitizar($vendedor->telefono) ?>">
+            <input type = "number" id="telefono" name = "vendedor[telefono]" placeholder="47734623" value= "<?php echo sanitizar($vendedor->telefono) ?>">
         </fieldset>

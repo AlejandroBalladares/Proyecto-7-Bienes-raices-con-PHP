@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Vendedor extends ActiveRecord{
+class Vendedor extends ActiveRecord {
     protected static $tabla = 'vendedores';
     protected static $columnasDB = ['id', 'nombre', 'apellido','telefono'];
 
@@ -17,5 +17,19 @@ class Vendedor extends ActiveRecord{
         $this->nombre = $args['nombre'] ?? '';
         $this->apellido = $args['apellido'] ?? '';
         $this->telefono = $args['telefono'] ?? '';
+    }
+
+    public function validar(){
+        if(!$this->nombre){
+            self::$errores[] = "Debe agregar un nombre";
+        }
+        if(!$this->apellido){
+            self::$errores[] = "Debe agregar un apellido";
+        }
+        if(!$this->telefono){
+            self::$errores[] = "Debe agregar un telefono";
+        }
+        
+        return self::$errores;
     }
 }

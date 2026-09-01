@@ -11,11 +11,11 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         //debuguear($_POST);
-        $propiedad = new Vendedor($_POST['vendedor']);
-        $errores = $propiedad->validar();
+        $vendedor = new Vendedor($_POST['vendedor']);
+        $errores = $vendedor->validar();
         
         if(empty($errores)){
-            $propiedad->guardar();
+            $vendedor->guardar();
         }
     }
     

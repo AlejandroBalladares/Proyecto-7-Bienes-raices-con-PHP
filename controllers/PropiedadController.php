@@ -8,12 +8,19 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 class PropiedadController{
+
     public static function index(Router $router){
         $propiedades = Propiedad::all();
+        $vendedores = Vendedor::all();
         $resultado = $_GET['resultado'] ?? null;
-        $router->render("propiedades/admin", ['propiedades'=>$propiedades, 'resultado'=>$resultado]);
+        $router->render("propiedades/admin", [
+            'propiedades'=>$propiedades,
+            'vendedores'=>$vendedores, 
+            'resultado'=>$resultado
+            ]);
 
     }
+
     public static function crear(Router $router){
         $propiedad = new Propiedad;
         $vendedores = Vendedor::all();
@@ -48,6 +55,7 @@ class PropiedadController{
             'errores'=>$errores,
         ]);
     }
+
     public static function actualizar(Router $router){
         $id = validarRedireccionar('/admin');
         $propiedad = Propiedad::find($id);
@@ -83,5 +91,20 @@ class PropiedadController{
             'errores'=>$errores,
         ]);
 
+    }
+
+    public static function eliminar(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $id = $_POST['id'];
+            $id = filter_var($id, FILTER_VALIDATE_INT);
+
+            if($id){
+                $tipo = $_POST['tipo'];
+                if(validarTipoContenido($tipo)){
+                    $propiedad = Propiedad::find($id);
+                    $propiedad->eliminar();
+                }            
+            }
+        }
     }
 }

@@ -1,3 +1,6 @@
+<?php
+/** @var Model\Propiedad $propiedad */
+?>
 <main class="contenedor seccion contenido-centrado">
         <h1> <?php echo $propiedad->titulo; ?> </h1>
 

@@ -1,4 +1,9 @@
-        <fieldset> 
+<?php
+/** @var Model\Vendedor $vendedor*/
+
+?>
+
+<fieldset> 
             <legend>Informacion general</legend>
             
             <label for="nombre"> Titulo </label>

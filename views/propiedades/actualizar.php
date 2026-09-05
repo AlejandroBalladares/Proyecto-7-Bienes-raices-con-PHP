@@ -1,3 +1,8 @@
+<?php
+/** @var string[] $errores */
+/** @var string $error */
+?>
+
 <main class="contenedor seccion">
         <h1>Actualizar propiedad</h1>
         <?php foreach($errores as $error): ?>

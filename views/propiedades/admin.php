@@ -1,3 +1,10 @@
+<?php
+/** @var Model\Propiedad[] $propiedades*/
+/** @var Model\Vendedor[] $vendedores*/
+/** @var Model\Propiedad $propiedad */
+/** @var bool $resultado */
+?>
+
 <main class="contenedor seccion">
         <h1>Administrador</h1>
 

@@ -48,8 +48,11 @@
         </div>
     </header>
 
-<?php  echo $contenido; ?>
-
+    <?php
+        /** @var string $contenido */
+        echo $contenido;
+    ?>
+    
     <footer class="footer seccion">
         <div class="contenedor contenedor-footer">
             <nav class="navegacion">

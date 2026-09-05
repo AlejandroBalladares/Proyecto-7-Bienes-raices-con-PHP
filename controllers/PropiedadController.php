@@ -18,7 +18,6 @@ class PropiedadController{
             'vendedores'=>$vendedores, 
             'resultado'=>$resultado
             ]);
-
     }
 
     public static function crear(Router $router){

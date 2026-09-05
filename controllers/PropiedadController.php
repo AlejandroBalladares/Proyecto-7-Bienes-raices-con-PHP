@@ -48,7 +48,40 @@ class PropiedadController{
             'errores'=>$errores,
         ]);
     }
-    public static function actualizar(){
-        echo "actualizar";
+    public static function actualizar(Router $router){
+        $id = validarRedireccionar('/admin');
+        $propiedad = Propiedad::find($id);
+        $errores = Propiedad::getErrores();
+        $vendedores = Vendedor::all();
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+       
+        $args = $_POST['propiedad'];
+        $propiedad->sincronizar($args);
+        $errores = $propiedad->validar();
+
+        //generar un nobre unico
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+        
+        if($_FILES['propiedad']['tmp_name']['imagen']){
+            $manager = new ImageManager(Driver::class);
+            $imagen = $manager->read($_FILES['propiedad']['tmp_name']['imagen'])->cover(800, 600);
+            $propiedad->setImagen($nombreImagen);
+        }
+        if (empty($errores)) {
+            // Almacenar la imagen
+            if ($_FILES['propiedad']['tmp_name']['imagen']){
+                $imagen->save(CARPETA_IMAGENES . $nombreImagen);
+            }
+            $propiedad->guardar();
+            }
+        }
+
+        $router->render('/propiedades/actualizar',[
+            'propiedad'=>$propiedad,
+            'vendedores'=>$vendedores,
+            'errores'=>$errores,
+        ]);
+
     }
 }

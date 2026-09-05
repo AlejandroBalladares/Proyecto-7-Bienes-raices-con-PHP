@@ -8,16 +8,16 @@ class Propiedad extends ActiveRecord{
     protected static $tabla = 'propiedades';
     protected static $columnasDB = ['id', 'titulo','precio','imagen','descripcion','habitaciones','wc','estacionamiento','creado','vendedorId'];
     
-    public int $id;
-    public string $titulo;
-    public int $precio;
-    public string  $imagen;
-    public string $descripcion;
-    public int $habitaciones;
-    public int $wc;
-    public int $estacionamiento;
+    public  $id;
+    public  $titulo;
+    public  $precio;
+    public  $imagen;
+    public  $descripcion;
+    public  $habitaciones;
+    public  $wc;
+    public  $estacionamiento;
     public $creado;
-    public int $vendedorId;
+    public  $vendedorId;
 
     public function __construct($args = [])
     {
